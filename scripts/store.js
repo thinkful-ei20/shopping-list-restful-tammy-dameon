@@ -34,12 +34,10 @@ const store = (function(){
     items: [],
     hideCheckedItems: false,
     searchTerm: '',
-    
     addItem,
     findById,
     findAndUpdate,
     findAndDelete,
-    
     toggleCheckedFilter,
     setSearchTerm,
   };
