@@ -22,7 +22,7 @@ api.createItem('pears', (newItem) => {
   });
 });
 
-console.log('hi');
+
 
 
 
