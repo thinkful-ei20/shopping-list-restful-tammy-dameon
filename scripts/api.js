@@ -31,12 +31,21 @@ const api = (function () {
       success: callback,
     });
   };
-  
+  let deleteItem = function(id,callback){
+    $.ajax({
+      url: `${BASE_URL}/items/${id}`,
+      method: 'DELETE',
+      contentType: 'application/json',
+     
+      success: callback,
+    });
+  };
   
   return {
     getItems,
     createItem,
     updateItem,
+    deleteItem
   };
 
 })();
