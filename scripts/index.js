@@ -16,4 +16,9 @@ api.getItems(function(data) {
   console.log(data);
 });
 
-console.log(api.BASE_URL);
+api.createItem('eggs', (newItem) => {
+  api.getItems((items) => {
+    console.log(items);
+  });
+});
+
