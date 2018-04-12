@@ -31,6 +31,7 @@ const store = (function(){
 
   const setError = function (errorThrown) {
     this.error = $('.error-message').text(errorThrown);
+    return this.error = null;
   };
 
   
