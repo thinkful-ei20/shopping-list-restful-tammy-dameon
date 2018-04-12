@@ -1,5 +1,5 @@
 'use strict';
-/* global Item */
+/* global Item, store, api */
 
 // eslint-disable-next-line no-unused-vars
 const store = (function(){
@@ -11,8 +11,6 @@ const store = (function(){
     return this.items.find(item => item.id === id);
   };
 
- 
-
   const findAndDelete = function(id) {
     this.items = this.items.filter(item => item.id !== id);
   };
@@ -20,6 +18,7 @@ const store = (function(){
   let findAndUpdate = function(id,newData){
     let itemToChange = this.items.find(item => item.id === id);
     Object.assign(itemToChange, newData);
+
   };
 
   const toggleCheckedFilter = function() {
@@ -30,16 +29,24 @@ const store = (function(){
     this.searchTerm = term;
   };
 
+  const setError = function (errorThrown) {
+    this.error = $('.error-message').text(errorThrown);
+  };
+
+  
   return {
     items: [],
     hideCheckedItems: false,
     searchTerm: '',
+    error: null,
+
     addItem,
     findById,
     findAndUpdate,
     findAndDelete,
     toggleCheckedFilter,
     setSearchTerm,
+    setError,
   };
   
 }());

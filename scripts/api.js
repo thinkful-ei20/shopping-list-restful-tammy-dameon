@@ -1,5 +1,5 @@
 'use strict';
-/* global shoppingList, store api Item */
+/* global shoppingList, store, api, Item */
 const api = (function () {
   let BASE_URL = 'https://thinkful-list-api.herokuapp.com/tammy-dameon';
   
@@ -10,7 +10,7 @@ const api = (function () {
     
   };
 
-  let createItem = function(name,callback){
+  let createItem = function(name, success, error){
     let newItem = JSON.stringify({'name': name});
 
     $.ajax({
@@ -18,26 +18,28 @@ const api = (function () {
       method: 'POST',
       contentType: 'application/json',
       data: newItem,
-      success: callback,
+      success: success,
+      error: error,
     }); 
   };
 
-  let updateItem = function (id, updateData, callback) {
+  let updateItem = function (id, updateData, success, error) {
     $.ajax({
       url: `${BASE_URL}/items/${id}`,
       method: 'PATCH',
       contentType: 'application/json',
       data: JSON.stringify(updateData),
-      success: callback,
+      success: success,
+      error: error,
     });
   };
-  let deleteItem = function(id,callback){
+  let deleteItem = function(id, success, error){
     $.ajax({
       url: `${BASE_URL}/items/${id}`,
       method: 'DELETE',
       contentType: 'application/json',
-     
-      success: callback,
+      success: success,
+      error: error,
     });
   };
   

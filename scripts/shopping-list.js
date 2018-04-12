@@ -47,7 +47,7 @@ const shoppingList = (function(){
     if (store.searchTerm) {
       items = store.items.filter(item => item.name.includes(store.searchTerm));
     }
-  
+
     // render the shopping list in the DOM
     console.log('`render` ran');
     const shoppingListItemsString = generateShoppingItemsString(items);
@@ -56,7 +56,7 @@ const shoppingList = (function(){
     $('.js-shopping-list').html(shoppingListItemsString);
   }
   
-  
+
   function handleNewItemSubmit() {
     $('#js-shopping-list-form').submit(function (event) {
       event.preventDefault();
@@ -65,10 +65,16 @@ const shoppingList = (function(){
       api.createItem(newItemName,(newItem) => {
         store.addItem(newItem);
         render();
-      });
+      }, (errorData,statusText, errorThrown) => {
+        console.log(errorData, statusText, errorThrown);
+        store.setError(errorData.responseJSON.message);
+      }
+      );
     });
   }
   
+  
+
   function getItemIdFromElement(item) {
     return $(item)
       .closest('.js-item-element')
@@ -82,7 +88,7 @@ const shoppingList = (function(){
       api.updateItem(id, {'checked': !item.checked}, function(){
         store.findAndUpdate(id, {'checked': !item.checked});
         render();
-      });
+      },store.setError());
     });
   }
   
@@ -94,8 +100,7 @@ const shoppingList = (function(){
       api.deleteItem(id,function (){
         store.findAndDelete(id);
         render();
-      });
-     
+      },store.setError());
     });
   }
   
@@ -105,9 +110,9 @@ const shoppingList = (function(){
       const id = getItemIdFromElement(event.currentTarget);
       const itemName = $(event.currentTarget).find('.shopping-item').val();
       api.updateItem(id, {'name': itemName}, function () {
-        store.findAndUpdate(id, {'name':itemName})
+        store.findAndUpdate(id, {'name':itemName});
         render();
-      });
+      }, store.setError());
     });
   }
   
@@ -115,7 +120,7 @@ const shoppingList = (function(){
     $('.js-filter-checked').click(() => {
       store.toggleCheckedFilter();
       render();
-    });
+    }, store.setError());
   }
   
   function handleShoppingListSearch() {
@@ -123,7 +128,7 @@ const shoppingList = (function(){
       const val = $(event.currentTarget).val();
       store.setSearchTerm(val);
       render();
-    });
+    }, store.setError());
   }
   
   function bindEventListeners() {
